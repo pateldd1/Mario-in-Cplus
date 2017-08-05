@@ -1,0 +1,4 @@
+/Users/dpatel/Documents/Prev Documents/C++ programs/Visual Studio 2015 Programs/Projects/gameproj/gameproj/mario.cpp:5:10: fatal error: 'SDL/SDL.h' file not found
+#include <SDL/SDL.h>
+         ^
+1 error generated.

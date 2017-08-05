@@ -34,7 +34,7 @@ public:
 
 	//Loads image at specified path
 	bool loadFromFile(std::string path);
-	
+
 	//Deallocates texture
 	void free();
 
@@ -44,7 +44,7 @@ public:
 	//Set blending
 	void setBlendMode(SDL_BlendMode blending);
 
-	
+
 
 	//Set alpha modulation
 	void setAlpha(Uint8 alpha);
@@ -59,7 +59,7 @@ public:
 private:
 	//The actual hardware texture
 	SDL_Texture* mTexture;
-	
+
 	//Image dimensions
 	int mWidth;
 	int mHeight;
@@ -131,14 +131,14 @@ bool LTexture::loadFromFile(std::string path)
 	}
 	else
 	{
-		
-		
-		
+
+
+
 			SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0XFF, 0xFF, 0xFF));
 			newTexture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
-		
+
 		//Create texture from surface pixels
-		
+
 		if (newTexture == NULL)
 		{
 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
@@ -156,7 +156,7 @@ bool LTexture::loadFromFile(std::string path)
 
 	//Return success
 	mTexture = newTexture;
-	
+
 	return mTexture != NULL;
 }
 
@@ -192,7 +192,7 @@ void LTexture::setAlpha(Uint8 alpha)
 
 void LTexture::render(int x, int y, SDL_Rect* clip)
 {
-	
+
 	//Set rendering space and render to screen
 	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
 
@@ -369,8 +369,8 @@ bool loadMedia()
 		gSpriteRight[7].h = 80;
 
 
-		
-		
+
+
 		gSpriteDown[0].x = 0;
 		gSpriteDown[0].y = 85;
 		gSpriteDown[0].w = 55;
@@ -388,22 +388,22 @@ bool loadMedia()
 		printf("Failed to load mario texture!\n");
 		success = false;
 	}
-	
-	else 
+
+	else
 	{
 		hammerbros[0].x = 55;
 		hammerbros[0].y = 97;
 		hammerbros[0].w = 72;
 		hammerbros[0].h = 68;
-		
+
 		for (a = 1; a < 8; a++)
 		{
-			
+
 			hammerbros[a].x = hammerbros[a - 1].x + 80;
 			hammerbros[a].y = 97;
 			hammerbros[a].w = 72;
 			hammerbros[a].h = 68;
-			
+
 			if (a == 5)
 			{
 				hammerbros[a].x = hammerbros[a - 1].x + 5;
@@ -426,7 +426,7 @@ void close()
 	gMarioAnimationPage.free();
 	gBackgroundTexture.free();
 	gHammerBroAnimationPage.free();
-	//Destroy window	
+	//Destroy window
 	SDL_DestroyRenderer(gRenderer);
 	SDL_DestroyWindow(gWindow);
 	gWindow = NULL;
@@ -445,7 +445,7 @@ bool checkCollision(SDL_Rect a, SDL_Rect b)
 	int rightA, rightB;
 	int topA, topB;
 	int bottomA, bottomB;
-		
+
 	//Calculate the sides of rect A
 	leftA = a.x;
 	rightA = a.x + a.w;
@@ -463,7 +463,7 @@ bool checkCollision(SDL_Rect a, SDL_Rect b)
 	{
 		return false;
 	}
-	
+
 	if (rightA <= leftB)
 	{
 		return false;
@@ -477,14 +477,14 @@ bool checkCollision(SDL_Rect a, SDL_Rect b)
 	{
 		return false;
 	}
-	
-	
+
+
 	return true;
 }
 
 
 
-	
+
 	void spawnMario();
 	void crouchright();
 	void crouchleft();
@@ -516,19 +516,19 @@ void HammerBro()
 		++frame3;
 		SDL_RenderClear(gRenderer);
 		gBackgroundTexture.render(0, 0);
-		gHammerBroAnimationPage.render(300, 290, HB);	
+		gHammerBroAnimationPage.render(300, 290, HB);
 }
 
 void RenderandStore()
 {
 		SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-		
-		
-		
+
+
+
 		gMarioAnimationPage.render(marioPosX, marioPosY, currentClip);
 		tempbox = *currentClip;
 		MarioCollisionBox = { marioPosX , marioPosY, tempbox.w, tempbox.h };
-		
+
 		SDL_RenderPresent(gRenderer);
 }
 
@@ -542,7 +542,7 @@ void spawnMario()
 	currentClip = &gSpriteClips[0];
 	HammerBro();
 	RenderandStore();
-	
+
 }
 
 void move()
@@ -557,7 +557,7 @@ void move()
 	}
 	if (direction == left)
 	{
-		
+
 			++frame;
 			if (frame / animationFraction >= WALKING_ANIMATION_FRAMES)
 			{
@@ -567,7 +567,7 @@ void move()
 	}
 	else if (direction == right)
 	{
-		
+
 			++frame2;
 			if (frame2 / animationFraction >= WALKING_ANIMATION_FRAMES)
 			{
@@ -615,17 +615,17 @@ void  crouchright()
 bool onPlatform()
 {
 	ON = false;
-	
+
 	temporaryBox = { (MarioCollisionBox.x) + ((MarioCollisionBox.w)/2) - 15, MarioCollisionBox.y +MarioCollisionBox.h - 15, 30, 5 };
 	for (a = 0; a < 10; a++)
 	{
-		
+
 		if (checkCollision(temporaryBox, platforms[a]))
 		{
 			ON = true;
 			break;
 		}
-	
+
 	}
 	return ON;
 }
@@ -634,7 +634,7 @@ void gravity()
 {
 	while (liftoff || !onPlatform())
 	{
-		
+
 			liftoff = false;
 			if (jump)
 			{
@@ -718,7 +718,7 @@ void renderPlatforms()
 
 int main(int argc, char* args[])
 {
-	
+
 	//Start up SDL and create window
 	if (!init())
 	{
@@ -733,7 +733,7 @@ int main(int argc, char* args[])
 		}
 		else
 		{
-			
+
 			//Main loop flag
 			bool quit = false;
 
@@ -745,16 +745,16 @@ int main(int argc, char* args[])
 			jump = false;
 			liftoff = false;
 			shiftdown = false;
-			
+
 			spawnMario();
-			
+
 			while (!quit)
 			{
 				HammerBro();
-				
+
 				RenderandStore();
 
-				
+
 				//Handle events on queue
 				while (SDL_PollEvent(&e) != 0)
 				{
@@ -773,7 +773,7 @@ int main(int argc, char* args[])
 							shiftdown = true;
 							animationFraction = 1;
 						}
-						
+
 						if (currentKeyStates[SDL_SCANCODE_UP] && e.key.repeat ==0)
 						{
 							direction = up;
@@ -803,9 +803,9 @@ int main(int argc, char* args[])
 							{
 								marioVelX = -3;
 							}
-							
+
 							move();
-							
+
 						}
 						else if (currentKeyStates[SDL_SCANCODE_RIGHT])
 						{
@@ -819,25 +819,25 @@ int main(int argc, char* args[])
 								marioVelX = 3;
 							}
 							move();
-							
+
 						}
 						else
 						{
 							HammerBro();
 							RenderandStore();
 						}
-						
-						
+
+
 					}
 					else if (e.type == SDL_KEYUP && e.key.repeat == 0)
 					{
 						animationFraction = 4;
 						liftoff = false;
-						
+
 						shiftdown = false;
 						marioVelX = 0;
 						marioVelY = 0;
-						
+
 						if (direction == right)
 						{
 							currentClip = &gSpriteRight[0];
